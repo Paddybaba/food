@@ -1,35 +1,63 @@
 import React, {useState} from 'react'
+import { useEffect } from 'react'
 import {Text, View, StyleSheet} from 'react-native'
 import SearchBar from '../components/SearchBar'
-import yelp from '../api/yelp'
-import axios from 'axios'
+import useResult from '../hooks/useResults'
+import ResultList from '../components/ResultList'
 
 const SearchScreen = () => {
     const [input, setInput] = useState ("");
-    const [result, setResult] = useState(0);
+    const [results, searchAPI, errMsg] = useResult();
 
-    const searchApi = async () =>{
-        const response = await yelp.get('/explore',{
-            params : {
-                client_id : "D0VRE15CAAQ5URYIFA45NFZCOAR4WPEBZH0RAZYEDNWF5JAA",
-                client_secret : "XEPROY0N3GLA5FFLVVVLBQBGEUO3K0M0KB0EA1G31JUNU0QC",
-                v:"20180323" ,
-                ll:"40.7243,-74.0018",
-                query:"pizza",
-                limit:1
-            }
-
+    const filterResult = (price) =>{
+        return results.filter(result =>{
+            return result.price === price;
         })
-        console.log(response.data.response.totalResults)
-        setResult(response.data.response.totalResults)
-    }
+    }        
+    // const [result, setResult] = useState("Results here");
+
+    // const searchApi = async () =>{
+    //     try{
+    //         const response  = await yelp.get('/businesses/search', {
+    //             params : {
+    //                 location : "new york",
+    //                 term : {input},
+    //                 limit : 5
+    //             }
+    //         })
+    //         setResult(response.data.businesses[0].name)
+    //         console.log(response.data)
+    //         // const response = await axios.get('https://api.foursquare.com/v2/venues/explore',{
+    //         //     params : {
+    //         //         client_id : "D0VRE15CAAQ5URYIFA45NFZCOAR4WPEBZH0RAZYEDNWF5JAA",
+    //         //         client_secret : "XEPROY0N3GLA5FFLVVVLBQBGEUO3K0M0KB0EA1G31JUNU0QC",
+    //         //         v:"20180323" ,
+    //         //         near : "nagpur",
+    //         //         query:input,
+    //         //         limit:5
+    //         //     }
+    
+    //         // })
+    //         // console.log(response.data.response.groups[0].items[2])
+    //         // setResult(response.data.response.groups[0].items[0].venue.name)
+    //     } catch (err){
+    //         console.log(err)
+    //         setResult("Error occured")
+    //     }
+      
+    
 return <View>
     <SearchBar 
         input={input}
         changeInput = {(newTerm) => setInput(newTerm)}
-        onSubmit = {() => searchApi()}
+        onSubmit = {() => searchAPI(input)}
                 />
-    <Text> Results : {result} </Text>
+    {/* <Text> Results : {results.length}</Text> */}
+    <ResultList results={filterResult('$')} title="Economy Class"/>
+    <ResultList results={filterResult('$$')} title="Budget Class"/>
+    <ResultList results={filterResult('$$$$')} title="Deluxe"/>
+    <ResultList results={filterResult('$$$$')} title="Premium"/>
+    {errMsg ? <Text>Some error Occured</Text> : null}
 </View>
 }
 
