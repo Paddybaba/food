@@ -19,9 +19,9 @@ return <View style = {styles.viewStyle}>
 
 const styles = StyleSheet.create({
     viewStyle : {
-       backgroundColor : "#ADD8E6",
+       backgroundColor : "#D3D3D3",
        height : 40,
-       marginHorizontal : 20,
+       marginHorizontal : 15,
        marginTop: 5,
        borderRadius : 5,
        flexDirection : 'row' ,

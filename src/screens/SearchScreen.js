@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useEffect } from 'react'
-import {Text, View, StyleSheet} from 'react-native'
+import {Text, View, StyleSheet, ScrollView} from 'react-native'
 import SearchBar from '../components/SearchBar'
 import useResult from '../hooks/useResults'
 import ResultList from '../components/ResultList'
@@ -45,22 +45,29 @@ const SearchScreen = () => {
     //         setResult("Error occured")
     //     }
       
-    
-return <View>
+
+return ( 
+<>
     <SearchBar 
         input={input}
         changeInput = {(newTerm) => setInput(newTerm)}
         onSubmit = {() => searchAPI(input)}
                 />
-    {/* <Text> Results : {results.length}</Text> */}
-    <ResultList results={filterResult('$')} title="Economy Class"/>
-    <ResultList results={filterResult('$$')} title="Budget Class"/>
-    <ResultList results={filterResult('$$$$')} title="Deluxe"/>
-    <ResultList results={filterResult('$$$$')} title="Premium"/>
     {errMsg ? <Text>Some error Occured</Text> : null}
-</View>
+    <ScrollView>    
+        <ResultList  results={filterResult('$')} title="Economy Class"/>
+        <ResultList  results={filterResult('$$')} title="Budget Class"/>
+        <ResultList  results={filterResult('$$$$')} title="Deluxe"/>
+        <ResultList  results={filterResult('$$$$')} title="Premium"/>
+    </ScrollView>
+    
+    
+</>
+)
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+})
 
 export default SearchScreen

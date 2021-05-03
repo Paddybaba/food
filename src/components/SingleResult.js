@@ -13,8 +13,10 @@ return   <View style={styles.viewStyle}>
 
 const styles = StyleSheet.create({
     viewStyle : {
-        width : 170,
-        height : 160
+        marginLeft: 15,
+        marginTop : 15,
+        width : 200,
+        height : 210
     },
     rating : {
         marginLeft : 10,
@@ -25,8 +27,8 @@ const styles = StyleSheet.create({
         fontWeight:"bold"
     },
     imageStyle : {
-        width : 150,
-        height: 100,
+        width : 200,
+        height: 150,
         borderRadius : 5
     },
     businessName : {

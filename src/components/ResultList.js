@@ -1,53 +1,42 @@
 import React from 'react'
-import {Text, View, StyleSheet, FlatList} from 'react-native'
+import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import SingleResult from './SingleResult'
+import {withNavigation} from 'react-navigation'
 
+const ResultList = ({title, results, navigation}) => {
+    if (!results.length) return null
 
-const ResultList = ({title, results}) => {
-return <View>
+    return <View>
          <Text style= {styles.title}>{title}</Text>
-         <Text>Found : {results.length}</Text>
+         <Text style={styles.found}>Found : {results.length}</Text>
          <FlatList 
              horizontal
+             showsHorizontalScrollIndicator = {false}
              data = {results}
              keyExtractor = {(result)=> result.id}
              renderItem = {({item})=>{
-                 return <SingleResult item={item}/>
-                // <View style={styles.viewStyle}>
-                //  <Image style={styles.imageStyle} source={{uri : item.image_url}}/>
-                //  <Text style={styles.rating}>{item.rating}  <Feather style = {styles.icon} name="star"/></Text>
-                //  <Text style={styles.businessName}>{item.name}</Text>
-                //  </View>
+                 return (
+                  <TouchableOpacity onPress={()=>{navigation.navigate('SingleBusiness', {id : item.id})}}>
+                    <SingleResult item={item}/>
+                  </TouchableOpacity>   
+                 )
              }}
          />
 </View>
 }
 
 const styles = StyleSheet.create({
-    viewStyle : {
-        width : 170,
-        height : 160
-    },
-    rating : {
-        marginLeft : 10,
-        color : 'black'
-    },
     title:{
+        marginTop:15,
+        marginLeft: 15,
         fontSize : 18,
         fontWeight:"bold"
     },
-    imageStyle : {
-        width : 150,
-        height: 100,
-        borderRadius : 5
-    },
-    businessName : {
-        fontWeight : "bold"
-    },
-    icon : {
+    found:{
+        marginLeft: 15,
         fontSize : 15,
-        color : "#FFD700"
+        fontWeight:"bold"
     }
 })
 
-export default ResultList
+export default withNavigation(ResultList)

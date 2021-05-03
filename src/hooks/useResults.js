@@ -14,7 +14,7 @@ export default useResult = () =>{
                     limit : 50
                 }
             })
-            console.log(response.data)
+            // console.log(response.data)
             setResults(response.data.businesses)
         }catch(err){
             setErrMsg("some error occurred")
@@ -22,6 +22,6 @@ export default useResult = () =>{
      
     
     }
-    // useEffect (searchAPI("pasta"), [])
+    useEffect (()=>{searchAPI("pasta")}, [])
     return [results, searchAPI, errMsg]
 }
